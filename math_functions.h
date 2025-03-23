@@ -408,9 +408,6 @@ ListNode* list_search(ListNode *head, int target);
 // 分块搜索
 int block_search(int arr[], int n, int target, int block_size);
 
-#ifndef FRACTION_H
-#define FRACTION_H
-
 // 定义分数结构体
 typedef struct {
     int numerator;   // 分子
@@ -436,7 +433,26 @@ Fraction divide(Fraction f1, Fraction f2);
 // 打印分数
 void printFraction(Fraction f);
 
-#endif // FRACTION_H
+#define GROUP_SIZE 4
 
+// 群元素乘法函数
+int group_multiplication(int a, int b);
+
+// 查找单位元函数
+int find_identity();
+
+// 查找元素的逆元函数
+int find_inverse(int element);
+
+// 检查群的封闭性
+bool check_closure();
+
+// 检查群的结合律
+bool check_associativity();
+
+bool solve_linear_equation(double a1, double b1, double c1, double d1,
+                           double a2, double b2, double c2, double d2,
+                           double a3, double b3, double c3, double d3,
+                           double *x, double *y, double *z);
 
 #endif // MATH_FUNCTIONS_H

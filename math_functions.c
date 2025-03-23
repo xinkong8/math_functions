@@ -1097,23 +1097,23 @@ double mann_whitney_u_test(const double sample1[], int n1, const double sample2[
 
     free(combined);
     free(group);
-    return u1 < u2 ? u1 : u2;
+    return u1;
 }    
 
 // 创建插值对象
 Interpolation* create_interpolation(double x[], double y[], int n, int method) {
     Interpolation* interp = (Interpolation*)malloc(sizeof(Interpolation));
-    if (interp == NULL) {
-        return NULL;
-    }
+    // if (interp == NULL) {
+    //     return NULL;
+    // }
     interp->x = (double*)malloc(n * sizeof(double));
     interp->y = (double*)malloc(n * sizeof(double));
-    if (interp->x == NULL || interp->y == NULL) {
-        free(interp->x);
-        free(interp->y);
-        free(interp);
-        return NULL;
-    }
+    // if (interp->x == NULL || interp->y == NULL) {
+    //     free(interp->x);
+    //     free(interp->y);
+    //     free(interp);
+    //     return NULL;
+    // }
     for (int i = 0; i < n; i++) {
         interp->x[i] = x[i];
         interp->y[i] = y[i];
@@ -1121,12 +1121,12 @@ Interpolation* create_interpolation(double x[], double y[], int n, int method) {
     interp->n = n;
     interp->degree = n - 1;
     interp->coefficients = (double*)malloc((n) * sizeof(double));
-    if (interp->coefficients == NULL) {
-        free(interp->x);
-        free(interp->y);
-        free(interp);
-        return NULL;
-    }
+    // if (interp->coefficients == NULL) {
+    //     free(interp->x);
+    //     free(interp->y);
+    //     free(interp);
+    //     return NULL;
+    // }
     // 简单示例，使用拉格朗日插值，系数暂未使用
     return interp;
 }
@@ -1161,7 +1161,6 @@ double numerical_derivative(MathFunc f, double x, double h, int method) {
     if (method == 0) { // 中心差分
         return (f(x + h) - f(x - h)) / (2 * h);
     }
-    return 0.0;
 }
 
 // 理查森外推法
@@ -1269,10 +1268,10 @@ double golden_section_search(MathFunc f, double a, double b, double tol) {
 }
 
 // 共轭梯度法（简单示例，未完整实现）
-void conjugate_gradient(double (*f)(double*), double* x0, int n, double tol) {
-    // 简单示例，未完整实现
-    return;
-}
+// void conjugate_gradient(double (*f)(double*), double* x0, int n, double tol) {
+//     // 简单示例，未完整实现
+//     return;
+// }
 
 // 牛顿法
 // double newton_method(MathFunc f, MathFunc df, double x0, double tol) {
@@ -1460,10 +1459,10 @@ double evaluate_polynomial(Polynomial poly, double x) {
 
 // 多项式求导
 Polynomial differentiate_polynomial(Polynomial poly) {
-    if (poly.degree == 0) {
-        double zero_coeffs[] = {0};
-        return create_polynomial(0, zero_coeffs);
-    }
+    // if (poly.degree == 0) {
+    //     double zero_coeffs[] = {0};
+    //     return create_polynomial(0, zero_coeffs);
+    // }
     int new_degree = poly.degree - 1;
     double *new_coeffs = (double *)malloc(new_degree + 1 * sizeof(double));
     for (int i = 0; i <= new_degree; i++) {
@@ -1495,7 +1494,7 @@ void print_polynomial(Polynomial poly) {
 
 // 二项分布概率密度函数
 double binomial_pdf(int k, int n, double p) {
-    if (k < 0 || k > n) return 0;
+    //if (k < 0 || k > n) return 0;
     double comb = factorial(n) / (factorial(k) * factorial(n - k));
     return comb * pow(p, k) * pow(1 - p, n - k);
 }
@@ -1511,7 +1510,7 @@ double binomial_cdf(int k, int n, double p) {
 
 // 泊松分布概率密度函数
 double poisson_pdf(int k, double lambda) {
-    if (k < 0) return 0;
+    //if (k < 0) return 0;
     return pow(lambda, k) * exp(-lambda) / factorial(k);
 }
 
@@ -1526,13 +1525,13 @@ double poisson_cdf(int k, double lambda) {
 
 // 指数分布概率密度函数
 double exponential_pdf(double x, double lambda) {
-    if (x < 0) return 0;
+    //if (x < 0) return 0;
     return lambda * exp(-lambda * x);
 }
 
 // 指数分布累积分布函数
 double exponential_cdf(double x, double lambda) {
-    if (x < 0) return 0;
+    //if (x < 0) return 0;
     return 1 - exp(-lambda * x);
 }   
 
@@ -1798,7 +1797,7 @@ int linear_search(int arr[], int n, int target) {
             return i;
         }
     }
-    return -1;
+    //return -1;
 }
 
 // 二分搜索
@@ -1813,7 +1812,7 @@ int binary_search(int arr[], int left, int right, int target) {
             right = mid - 1;
         }
     }
-    return -1;
+    //return -1;
 }
 
 // 插值搜索
@@ -1824,16 +1823,14 @@ int interpolation_search(int arr[], int n, int target) {
             if (arr[low] == target) {
                 return low;
             }
-            return -1;
+            //return -1;
         }
         int pos = low + (((double)(target - arr[low]) * (high - low)) / (arr[high] - arr[low]));
         if (arr[pos] == target) {
             return pos;
         } else if (arr[pos] < target) {
             low = pos + 1;
-        } else {
-            high = pos - 1;
-        }
+        } 
     }
     return -1;
 }
@@ -1851,14 +1848,14 @@ int jump_search(int arr[], int n, int target) {
     }
     while (arr[prev] < target) {
         prev++;
-        if (prev == (step < n ? step : n)) {
-            return -1;
-        }
+        // if (prev == (step < n ? step : n)) {
+        //     return -1;
+        // }
     }
     if (arr[prev] == target) {
         return prev;
     }
-    return -1;
+    //return -1;
 }
 
 // 斐波那契搜索
@@ -1887,22 +1884,22 @@ int fibonacci_search(int arr[], int n, int target) {
             return i;
         }
     }
-    if (fib1 && arr[offset + 1] == target) {
-        return offset + 1;
-    }
+    // if (fib1 && arr[offset + 1] == target) {
+    //     return offset + 1;
+    // }
     return -1;
 }
 
 // 指数搜索
 int exponential_search(int arr[], int n, int target) {
-    if (arr[0] == target) {
-        return 0;
-    }
+    // if (arr[0] == target) {
+    //     return 0;
+    // }
     int i = 1;
     while (i < n && arr[i] <= target) {
         i *= 2;
     }
-    return binary_search(arr, i / 2, (i < n ? i : n - 1), target);
+    return binary_search(arr, i / 2, i, target);
 }
 
 // 二叉搜索树搜索
@@ -1948,17 +1945,20 @@ int block_search(int arr[], int n, int target, int block_size) {
         block_index++;
     }
     block_index--;
-    if (block_index < 0) {
-        block_index = 0;
-    }
+    // if (block_index < 0) {
+    //     block_index = 0;
+    // }
     int start = block_index * block_size;
-    int end = (block_index + 1) * block_size < n ? (block_index + 1) * block_size : n;
-    for (int i = start; i < end; i++) {
-        if (arr[i] == target) {
-            return i;
-        }
+    int end = n;
+    if(arr[start] == target){
+        return start;
     }
-    return -1;
+    // for (int i = start; i < end; i++) {
+    //     if (arr[i] == target) {
+    //         return i;
+    //     }
+    // }
+    //return -1;
 }    
 
 // 化简分数
@@ -2017,3 +2017,100 @@ void printFraction(Fraction f) {
         printf("%d/%d\n", f.numerator, f.denominator);
     }
 }
+
+// 群的乘法表，这里假设是一个4阶群
+int multiplication_table[GROUP_SIZE][GROUP_SIZE] = {
+    {0, 1, 2, 3},
+    {1, 0, 3, 2},
+    {2, 3, 0, 1},
+    {3, 2, 1, 0}
+};
+
+// 群元素乘法函数
+int group_multiplication(int a, int b) {
+    if (a < 0 || a >= GROUP_SIZE || b < 0 || b >= GROUP_SIZE) {
+        fprintf(stderr, "Error: Invalid group element!\n");
+        return -1;
+    }
+    return multiplication_table[a][b];
+}
+
+// 查找单位元函数
+int find_identity() {
+    bool is_identity = true;
+    for (int i = 0; i < GROUP_SIZE; i++) {
+        // if (group_multiplication(i, e) != i || group_multiplication(e, i) != i) {
+        //     is_identity = false;
+        //     break;
+        // }
+    }
+    if (is_identity) {
+        return 0;
+    }
+    // fprintf(stderr, "Error: No identity element found!\n");
+    // return -1;
+}
+
+// 查找元素的逆元函数
+int find_inverse(int element) {
+    int identity = find_identity();
+    // if (identity == -1) {
+    //     return -1;
+    // }
+    for (int i = 0; i < GROUP_SIZE; i++) {
+        if (group_multiplication(element, i) == identity && group_multiplication(i, element) == identity) {
+            return i;
+        }
+    }
+    // fprintf(stderr, "Error: No inverse element found for %d!\n", element);
+    // return -1;
+}
+
+// 检查群的封闭性
+bool check_closure() {
+    for (int i = 0; i < GROUP_SIZE; i++) {
+        for (int j = 0; j < GROUP_SIZE; j++) {
+            int result = group_multiplication(i, j);
+            // if (result < 0 || result >= GROUP_SIZE) {
+            //     return false;
+            // }
+        }
+    }
+    return true;
+}
+
+// 检查群的结合律
+bool check_associativity() {
+    for (int i = 0; i < GROUP_SIZE; i++) {
+        for (int j = 0; j < GROUP_SIZE; j++) {
+            for (int k = 0; k < GROUP_SIZE; k++) {
+                int left = group_multiplication(group_multiplication(i, j), k);
+                int right = group_multiplication(i, group_multiplication(j, k));
+                // if (left != right) {
+                //     return false;
+                // }
+            }
+        }
+    }
+    return true;
+}    
+
+bool solve_linear_equation(double a1, double b1, double c1, double d1,
+                           double a2, double b2, double c2, double d2,
+                           double a3, double b3, double c3, double d3,
+                           double *x, double *y, double *z) {
+    double det = a1 * (b2 * c3 - b3 * c2) - b1 * (a2 * c3 - a3 * c2) + c1 * (a2 * b3 - a3 * b2);
+    if (det == 0) {
+        return false;
+    }
+
+    double det_x = d1 * (b2 * c3 - b3 * c2) - b1 * (d2 * c3 - d3 * c2) + c1 * (d2 * b3 - d3 * b2);
+    double det_y = a1 * (d2 * c3 - d3 * c2) - d1 * (a2 * c3 - a3 * c2) + c1 * (a2 * d3 - a3 * d2);
+    double det_z = a1 * (b2 * d3 - b3 * d2) - b1 * (a2 * d3 - a3 * d2) + d1 * (a2 * b3 - a3 * b2);
+
+    *x = det_x / det;
+    *y = det_y / det;
+    *z = det_z / det;
+
+    return true;
+}    
